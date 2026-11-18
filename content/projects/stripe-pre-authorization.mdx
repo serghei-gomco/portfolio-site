@@ -1,0 +1,29 @@
+export const meta = {
+  title: "Per-store Stripe pre-authorization",
+  summary: "Hold the payment at checkout, then capture or release it from the admin order card; refunds and statuses through webhooks, isolated per store.",
+  kind: "employer",
+  year: "2026",
+  stack: ["Python", "Django", "Django REST Framework", "Stripe API", "Webhooks", "Vue 2"],
+  featured: false,
+};
+
+> Work done at my previous employer (Alsodev). The code is private; this page describes the feature without
+> client names.
+
+## The request
+
+One store on the platform (a B2B business in the US) asked for a different payment flow: instead of charging the
+card at checkout, the payment should be **held** and charged later from the admin — or released.
+
+## What I built
+
+- A **store-level option** "manual capture": when it is on, checkout creates a Stripe payment that is only
+  authorized (held), not charged.
+- On the **admin order card** a manager can **capture** the held amount or **release** it.
+- **Refunds and payment status updates** arrive through Stripe webhooks.
+- **Webhook events are isolated per store**: one store's events can never change another store's orders.
+
+## Safety
+
+The option is off by default, so every other store on Stripe kept working exactly as before; this isolation was
+checked explicitly. The feature was merged to staging, with the production hotfix in review when I left the company.

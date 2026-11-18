@@ -1,0 +1,38 @@
+export const meta = {
+  title: "SizeSheet — Shopify App Store app",
+  summary: "My own public Shopify app for store size charts. Built solo and approved in Shopify App Store review three weeks after the idea.",
+  kind: "personal",
+  year: "2026",
+  stack: ["React Router 7", "TypeScript", "Prisma", "Shopify Admin GraphQL", "Polaris", "Liquid", "Fly.io"],
+  links: [{ label: "Shopify App Store", href: "https://apps.shopify.com/size-charts-lab" }],
+  featured: true,
+};
+
+## What it is
+
+SizeSheet lets a Shopify merchant create size charts in the admin and show them on product pages.
+It is a public app: anyone can install it from the Shopify App Store.
+
+## Timeline
+
+- **20 October 2026** — idea.
+- **23 October 2026** — submitted to Shopify App Store review.
+- **10 November 2026** — approved and published.
+
+## How it is built
+
+- **Embedded admin** on React Router 7 + TypeScript, inside the Shopify admin through App Bridge,
+  with Polaris web components for the UI.
+- **Data**: Prisma for the app's own data; size charts are stored in the shop through Shopify Admin GraphQL
+  (metaobjects and metafields).
+- **Billing** through the Shopify Billing API (subscriptions).
+- **Storefront widget**: a theme app extension (Liquid + vanilla JavaScript), so merchants add it from the
+  theme editor without touching theme code.
+- **Webhooks** verified with HMAC, including the mandatory GDPR webhooks.
+- **Hosting** on Fly.io with a static egress IP allowlist.
+
+## How I worked
+
+I built it with an AI-assisted workflow: I planned each change, reviewed the code and accepted it only after
+checking it myself. Shopify review is strict about webhooks, billing and privacy, so these parts got the most
+attention.

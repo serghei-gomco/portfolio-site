@@ -1,0 +1,39 @@
+export const meta = {
+  title: "Mobile homepage layout shift: CLS 0.51 → under 0.06",
+  summary: "On a multi-store e-commerce platform I cut layout shift on mobile homepages; all 8 measured stores moved under Google's 0.1 \"Good\" threshold.",
+  kind: "employer",
+  year: "2026",
+  stack: ["Nuxt 2", "Vue 2", "SSR", "Core Web Vitals"],
+  featured: true,
+};
+
+> Work done at my previous employer (Alsodev). The code is private, so this page describes the problem and the
+> result without client names or code.
+
+## Context
+
+The platform runs 70+ online stores on one Nuxt 2 / Vue 2 SSR codebase with several themes. On mobile, the
+homepage visibly jumped while loading: content moved down as blocks above it appeared.
+
+## The problem in numbers
+
+Cumulative Layout Shift (CLS) on the mobile homepage was **0.51**. Google treats anything above **0.25** as
+"Poor" and under **0.1** as "Good".
+
+## What I did
+
+- Measured which elements moved during load on mobile and in which order.
+- Fixed the causes in the **shared homepage components**, including the mobile hero block — so the fix reached
+  most of the platform's storefronts, not just one.
+- Re-measured on 8 different stores after the change.
+
+## Result
+
+- CLS went from **0.51 to under 0.06**.
+- **All 8 measured stores** are under the 0.1 "Good" threshold.
+- These are lab measurements, not field data from real users.
+
+## What I can do for you
+
+The same process works on any React, Vue or Nuxt site: measure, find the shifting elements, fix the cause,
+measure again, and give you a short report with before/after numbers.

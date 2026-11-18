@@ -1,0 +1,32 @@
+export const meta = {
+  title: "PDF upload component (React)",
+  summary: "An accessible drag-and-drop upload for a single PDF: type and size checks, clear errors, keyboard support and optional text extraction in a Web Worker.",
+  kind: "personal",
+  year: "2026",
+  stack: ["React", "TypeScript", "Vite", "Vitest", "Testing Library", "pdf.js"],
+  featured: false,
+};
+
+## The task
+
+Many client briefs ask for the same thing: "let the user upload one PDF, check it, show a clear error if it's
+wrong". This demo is a small, reusable component that does exactly that, with a demo page and tests.
+
+## What it does
+
+- Drag and drop **or** click / press Enter to choose a file.
+- Accepts one PDF up to 10 MB by default; the type and size limit are props.
+- Checks both the file extension/MIME type and the size, and explains the problem in plain words.
+- Shows the file name and size, with a button to remove the file.
+- Works with the keyboard and announces errors to screen readers.
+- Calls `onFileSelect(file)` so the parent decides what to do next (upload, preview, parse).
+- Optional: extracts the text of the PDF with pdf.js inside a Web Worker, so the page does not freeze.
+
+## Key decisions
+
+- **No upload logic inside the component.** It only selects and validates; sending the file is the parent's job.
+  This keeps it reusable with any backend.
+- **Validation is a pure function**, tested separately from the UI.
+- **Native `<input type="file">` under the hood**, so the browser's own file picker and accessibility work.
+
+The source code and tests are in the `file-upload/` project next to this site.

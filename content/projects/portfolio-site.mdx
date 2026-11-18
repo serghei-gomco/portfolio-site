@@ -1,0 +1,29 @@
+export const meta = {
+  title: "This portfolio site (Next.js)",
+  summary: "The site you are reading: Next.js App Router, TypeScript, Tailwind, case studies in MDX and a contact form with spam protection.",
+  kind: "personal",
+  year: "2026",
+  stack: ["Next.js (App Router)", "TypeScript", "Tailwind CSS", "MDX", "Resend"],
+  featured: false,
+};
+
+## Why
+
+My commercial experience is Vue/Nuxt; this site is my personal Next.js project. It is small on purpose, but it
+uses the parts clients usually ask about.
+
+## What is inside
+
+- **App Router** with server components; every page is static and generated at build time.
+- **Case studies in MDX**: each project is one file with its metadata; `generateStaticParams` builds a page per
+  project, and the same list feeds the project grid and the sitemap.
+- **Contact form** on a server action: validation on the server, a hidden honeypot field against bots,
+  delivery through the Resend email API. Keys and the inbox address live in environment variables, not in code.
+- **SEO**: Metadata API (title template, description, canonical), generated Open Graph image, `sitemap.xml`
+  and `robots.txt`.
+- **Ready for Vercel**: no custom server, no database.
+
+## How I worked
+
+Built with an AI-assisted workflow: I planned the structure, reviewed every change and checked the result in the
+browser.

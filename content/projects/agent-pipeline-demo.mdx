@@ -1,0 +1,35 @@
+export const meta = {
+  title: "Agent pipeline demo",
+  summary: "A small task-list app where one real feature went from spec to acceptance through a pipeline of AI coding agents — with the checks that caught their mistakes.",
+  kind: "personal",
+  year: "2026",
+  stack: ["TypeScript", "Express", "React 18", "Vite", "Vitest", "Claude Code"],
+  links: [{ label: "GitHub (public, MIT)", href: "https://github.com/serghei-gomco/agent-pipeline-demo" }],
+  featured: true,
+};
+
+## The question
+
+AI coding agents write code fast, but how do you know the result is correct? This public demo answers it on
+a real, small app instead of slides.
+
+## The app
+
+- `server/` — Express API for tasks with input validation and a single error format.
+- `web/` — React 18 + Vite; one custom hook owns all state, the API and the clock are injected so tests need no
+  global mocks.
+- 83 tests in Vitest (supertest for the API, Testing Library for the UI), run in two time zones.
+
+## The experiment
+
+A feature (*due dates and an "Overdue" filter*) was taken from a written spec to live acceptance by my agent
+pipeline: intake → plan → code → review → QA report → acceptance. The spec had deliberate traps — a requirement
+hidden in a comment, "today" in the user's time zone rather than UTC, invalid dates like `2026-02-30`.
+
+The README shows which check caught each trap, with log excerpts, and the full paper trail of the run is in the
+repository. A git guard blocks force-pushes and committed `.env` files; a script proves it with 13 cases.
+
+## Why it matters for a client
+
+If your team uses AI agents, the same approach gives you code that is checked against the spec before a human
+reviews it — and a written record of what was checked.
