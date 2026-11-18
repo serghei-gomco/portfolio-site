@@ -41,7 +41,7 @@ The page, the grid and the sitemap pick it up automatically.
 
 | Variable | Purpose |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Absolute URL for canonical links, sitemap and OG |
+| `NEXT_PUBLIC_SITE_URL` | Absolute URL for canonical links, sitemap and OG. Optional on Vercel: falls back to `VERCEL_PROJECT_PRODUCTION_URL`; set it when you add a custom domain |
 | `RESEND_API_KEY` | Resend API key (server only) |
 | `CONTACT_FROM_EMAIL` | Sender on a domain verified in Resend |
 | `CONTACT_TO_EMAIL` | Inbox that receives messages — never hard-coded |

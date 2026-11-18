@@ -11,10 +11,12 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   // Honeypot filled → pretend success, so the bot learns nothing.
   if (isSpam(input)) return SUCCESS;
 
+  // Sent back with every error, so the visitor never loses what they typed.
+  const values = { name: input.name, email: input.email, message: input.message };
+
   const fields = validateContact(input);
   if (Object.keys(fields).length > 0) {
-    const { name, email, message } = input;
-    return { status: "error", message: "Please fix the highlighted fields.", fields, values: { name, email, message } };
+    return { status: "error", message: "Please fix the highlighted fields.", fields, values };
   }
 
   const { RESEND_API_KEY, CONTACT_FROM_EMAIL, CONTACT_TO_EMAIL } = process.env;
@@ -24,7 +26,7 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
       return { status: "success", message: "Dev mode: the form works, but email is not configured, so nothing was sent." };
     }
     console.error("[contact] Missing RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL");
-    return { status: "error", message: "The form is temporarily unavailable. Please write to me on LinkedIn." };
+    return { status: "error", message: "The form is temporarily unavailable. Please write to me on LinkedIn.", values };
   }
 
   // Plain fetch to the Resend REST API: one request, no SDK needed.
@@ -42,7 +44,7 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
 
   if (!res.ok) {
     console.error("[contact] Resend error", res.status, await res.text());
-    return { status: "error", message: "Sorry, the message could not be sent. Please try again later." };
+    return { status: "error", message: "Sorry, the message could not be sent. Please try again later.", values };
   }
   return SUCCESS;
 }
