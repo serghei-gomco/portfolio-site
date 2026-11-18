@@ -1,0 +1,45 @@
+export const meta = {
+  title: "Nuxt 3 store: removing a layout jump",
+  summary: "A small static storefront where filtered catalogue links made the page jump (CLS 0.352, Lighthouse 82). Before/after with the fix explained and measured.",
+  kind: "personal",
+  year: "2026",
+  stack: ["Nuxt 3", "Vue 3", "TypeScript", "Pinia", "Vitest", "Lighthouse"],
+  links: [
+    { label: "Live demo", href: "https://nuxt-store-kappa.vercel.app" },
+    { label: "GitHub", href: "https://github.com/serghei-gomco/nuxt-store" },
+  ],
+  featured: false,
+};
+
+## The problem
+
+A fictional demo shop, fully static. Opening a filtered link directly, like `/?category=desk` (the kind of link
+people share or get from an ad), showed all 12 products for a moment and then collapsed the grid to 3. The page
+visibly jumped: Lighthouse mobile gave it **82**, with a layout shift (CLS) of **0.352**.
+
+## What I found
+
+On a static host the server never sees `?category=`, so the HTML always contains the full grid. Vue applied the
+filter only after it started in the browser, which is exactly when the jump happened. Separately, every page
+fetched extra `_payload.json` files and prefetched the code of every product linked in the grid.
+
+## What I changed
+
+- A one-line script in `<head>` reads the category before the first paint, and CSS hides the other cards. The first
+  paint is already the filtered grid.
+- Payload files turned off (the app has no fetched data to put in them); links prefetch on hover or tap instead of
+  as soon as they scroll into view.
+
+## Result
+
+Median of 3 Lighthouse mobile runs, local static build:
+
+- Filtered link: **82 → 100**, CLS **0.352 → 0**, requests 34 → 13.
+- Catalogue page: 99 → 100, requests 35 → 18.
+- Product page: 100 → 100, requests 17 → 7.
+
+The fix users notice is the first one. The second roughly halves the requests but barely moves the score: on a
+site this small there was little to win, and the README says so.
+
+The `before` branch on GitHub is the same store with the fixes removed, so the comparison can be repeated. It was
+rebuilt from the finished store for this comparison, not kept from an earlier stage.

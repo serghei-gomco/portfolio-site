@@ -19,6 +19,7 @@ export type Project = ProjectMeta & { slug: string };
 export const projectSlugs = [
   "sizesheet",
   "agent-pipeline-demo",
+  "nuxt-store-performance",
   "pdf-upload-component",
   "portfolio-site",
   "homepage-layout-shift",
