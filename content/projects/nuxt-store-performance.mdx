@@ -41,5 +41,10 @@ Median of 3 Lighthouse mobile runs, local static build:
 The fix users notice is the first one. The second roughly halves the requests but barely moves the score: on a
 site this small there was little to win, and the README says so.
 
-The `before` branch on GitHub is the same store with the fixes removed, so the comparison can be repeated. It was
-rebuilt from the finished store for this comparison, not kept from an earlier stage.
+## Reproduce the comparison
+
+Generate static builds from `main` and the [`before` branch](https://github.com/serghei-gomco/nuxt-store/tree/before)
+with `npm run generate` and serve both locally. Measure a direct visit to `/?category=desk` with Lighthouse 13.6.0
+using the mobile preset. I reconstructed the baseline by reverting the performance changes in the finished store.
+The [measurement report](https://github.com/serghei-gomco/nuxt-store/blob/main/REPORT.md) has the exact commands,
+individual runs, and measurement caveats.
