@@ -29,22 +29,23 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
     return { status: "error", message: "The form is temporarily unavailable. Please write to me on LinkedIn.", values };
   }
 
-  // Plain fetch to the Resend REST API: one request, no SDK needed.
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: CONTACT_FROM_EMAIL,
-      to: [CONTACT_TO_EMAIL],
-      reply_to: input.email,
-      subject: `Portfolio: message from ${input.name}`,
-      text: `Name: ${input.name}\nEmail: ${input.email}\n\n${input.message}`,
-    }),
-  });
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: CONTACT_FROM_EMAIL,
+        to: [CONTACT_TO_EMAIL],
+        reply_to: input.email,
+        subject: `Portfolio: message from ${input.name}`,
+        text: `Name: ${input.name}\nEmail: ${input.email}\n\n${input.message}`,
+      }),
+    });
+    if (res.ok) return SUCCESS;
 
-  if (!res.ok) {
     console.error("[contact] Resend error", res.status, await res.text());
-    return { status: "error", message: "Sorry, the message could not be sent. Please try again later.", values };
+  } catch (error) {
+    console.error("[contact] Resend request failed", error);
   }
-  return SUCCESS;
+  return { status: "error", message: "Sorry, the message could not be sent. Please try again later.", values };
 }
